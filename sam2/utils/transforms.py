@@ -114,5 +114,5 @@ class SAM2Transforms(nn.Module):
             )
             masks = input_masks
 
-        masks = F.interpolate(masks, orig_hw, mode="bilinear", align_corners=False)
+        masks = F.interpolate(masks, orig_hw, mode="bicubic", align_corners=False)
         return masks
