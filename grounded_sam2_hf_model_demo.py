@@ -23,7 +23,7 @@ parser.add_argument("--text-prompt", default="car. tire.")
 parser.add_argument("--img-path", default="notebooks/images/truck.jpg")
 parser.add_argument("--sam2-checkpoint", default="./checkpoints/sam2.1_hiera_large.pt")
 parser.add_argument("--sam2-model-config", default="configs/sam2.1/sam2.1_hiera_l.yaml")
-parser.add_argument("--output-dir", default="outputs/test_sam2.1")
+parser.add_argument("--output-dir", default="outputs/grounded_sam2_hf_demo")
 parser.add_argument("--no-dump-json", action="store_true")
 parser.add_argument("--force-cpu", action="store_true")
 args = parser.parse_args()
@@ -44,7 +44,7 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 # use bfloat16
 torch.autocast(device_type=DEVICE, dtype=torch.bfloat16).__enter__()
 
-if torch.cuda.get_device_properties(0).major >= 8:
+if torch.cuda.is_available() and torch.cuda.get_device_properties(0).major >= 8:
     # turn on tfloat32 for Ampere GPUs (https://pytorch.org/docs/stable/notes/cuda.html#tensorfloat-32-tf32-on-ampere-devices)
     torch.backends.cuda.matmul.allow_tf32 = True
     torch.backends.cudnn.allow_tf32 = True
